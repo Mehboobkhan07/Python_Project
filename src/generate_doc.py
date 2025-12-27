@@ -4,7 +4,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 doc = Document()
 
-# ---------------- HEADER SECTION ----------------
+
 def add_centered_bold(text, size=12, after=0):
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -24,7 +24,7 @@ p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
 doc.add_paragraph("\n")
 
-# ---------------- TABLE SETUP ----------------
+
 table = doc.add_table(rows=0, cols=3)
 table.style = "Table Grid"
 table.autofit = False
@@ -40,7 +40,7 @@ def add_row(c1, c2, c3, bold_label=True):
     row.cells[2].text = c3
     return row
 
-# ---------------- DETAILS OF PARTIES ----------------
+
 row = table.add_row()
 row.cells[0].merge(row.cells[1]).merge(row.cells[2])
 row.cells[0].paragraphs[0].add_run("DETAILS OF PARTIES:").bold = True
@@ -53,7 +53,7 @@ row.cells[0].paragraphs[0].add_run(
     "Address and contact details of Applicant"
 ).bold = True
 
-# -------- Applicant Address (FIXED: multiple paragraphs) --------
+
 row = table.add_row()
 row.cells[0].text = "1"
 row.cells[1].paragraphs[0].add_run("Address").bold = True
@@ -77,7 +77,6 @@ add_row("", "Telephone No.", "{{mobile}}")
 add_row("", "Mobile No.", "")
 add_row("", "Email ID", "info@kslegal.co.in")
 
-# ---------------- OPPOSITE PARTY ----------------
 row = table.add_row()
 row.cells[0].merge(row.cells[1]).merge(row.cells[2])
 row.cells[0].paragraphs[0].add_run(
@@ -92,7 +91,7 @@ row.cells[0].paragraphs[0].add_run(
 
 add_row("", "Name", "{{customer_name}}")
 
-# -------- Defendant Address (FIXED) --------
+
 row = table.add_row()
 row.cells[0].text = ""
 row.cells[1].paragraphs[0].add_run("Address").bold = True
@@ -120,7 +119,6 @@ add_row("", "Telephone No.", "")
 add_row("", "Mobile No.", "")
 add_row("", "Email ID", "")
 
-# ---------------- DETAILS OF DISPUTE ----------------
 row = table.add_row()
 row.cells[0].merge(row.cells[1]).merge(row.cells[2])
 row.cells[0].paragraphs[0].add_run("DETAILS OF DISPUTE:").bold = True
@@ -142,4 +140,20 @@ row.cells[0].paragraphs[0].add_run(
 ).bold = True
 
 
-doc.save("output/form_A_corrected.docx")
+
+from docx import Document
+import os
+
+def create_doc():
+    # Ensure output directory exists
+    os.makedirs("output", exist_ok=True)
+
+    doc = Document()
+
+    doc.add_heading("FORM 'A'", level=1)
+    doc.add_paragraph("MEDIATION APPLICATION FORM")
+
+    file_path = "output/form_A_corrected.docx"
+    doc.save(file_path)
+
+    return file_path
